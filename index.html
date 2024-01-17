@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcolo Media</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 200px;
+            margin-right: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <p>Inserire i numeri. La media viene aggiornata automaticamente.</p>
+    <input type="number" id="numeroInput" placeholder="Inserire numero">
+    <button onclick="aggiungiNumero()">Aggiungi Numero</button>
+    <p>Media attuale: <span id="media">N/A</span></p>
+
+    <table id="tabellaNumeri">
+        <tr>
+            <th>Num</th>
+        </tr>
+    </table>
+</div>
+
+<script>
+    let somma = 0;
+    let volte = 0;
+
+    function aggiungiNumero() {
+        let numeroInput = document.getElementById("numeroInput");
+        let mediaSpan = document.getElementById("media");
+        let tabellaNumeri = document.getElementById("tabellaNumeri");
+
+        let numero = parseFloat(numeroInput.value);
+
+        if (!isNaN(numero)) {
+            somma += numero;
+            volte++;
+
+            // Aggiungi il numero alla tabella
+            let riga = tabellaNumeri.insertRow(-1);
+            let cella = riga.insertCell(0);
+            cella.textContent = numero;
+
+            // Aggiorna la media
+            mediaSpan.textContent = (somma / volte).toFixed(2);
+
+            // Resetta l'input
+            numeroInput.value = "";
+        } else {
+            alert("Inserire un numero valido.");
+        }
+    }
+</script>
+
+</body>
+</html>
