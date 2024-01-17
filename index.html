@@ -23,6 +23,7 @@
     <p>Inserire i numeri. La media viene aggiornata automaticamente.</p>
     <input type="number" id="numeroInput" placeholder="Inserire numero">
     <button onclick="aggiungiNumero()">Aggiungi Numero</button>
+    <button onclick="reset()">Resetta</button>
     <p>Media attuale: <span id="media">N/A</span></p>
 
     <table id="tabellaNumeri">
@@ -60,6 +61,21 @@
         } else {
             alert("Inserire un numero valido.");
         }
+    }
+
+    function reset() {
+        let numeroInput = document.getElementById("numeroInput");
+        let mediaSpan = document.getElementById("media");
+        let tabellaNumeri = document.getElementById("tabellaNumeri");
+
+        // Resetta variabili e testi
+        somma = 0;
+        volte = 0;
+        mediaSpan.textContent = "N/A";
+        numeroInput.value = "";
+
+        // Resetta la tabella
+        tabellaNumeri.innerHTML = "<tr><th>Num</th></tr>";
     }
 </script>
 
