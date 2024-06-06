@@ -29,6 +29,8 @@
     <input type="number" id="numeroInput" placeholder="Inserire numero">
     <button onclick="aggiungiNumero()">Aggiungi Numero</button>
     <button onclick="reset()">Resetta</button>
+    <button onclick="indietro()">Indietro</button>
+    <button onclick="annullaUltimo()">Annulla Ultimo</button>
     <p>Media attuale: <span id="media">N/A</span></p>
 
     <table id="tabellaNumeri">
@@ -41,6 +43,7 @@
 <script>
     let somma = 0;
     let volte = 0;
+    let numeri = [];
 
     function aggiungiNumero() {
         let numeroInput = document.getElementById("numeroInput");
@@ -50,6 +53,7 @@
         let numero = parseFloat(numeroInput.value);
 
         if (!isNaN(numero)) {
+            numeri.push(numero);
             somma += numero;
             volte++;
 
@@ -76,11 +80,38 @@
         // Resetta variabili e testi
         somma = 0;
         volte = 0;
+        numeri = [];
         mediaSpan.textContent = "N/A";
         numeroInput.value = "";
 
         // Resetta la tabella
         tabellaNumeri.innerHTML = "<tr><th>Num</th></tr>";
+    }
+
+    function indietro() {
+        history.back();
+    }
+
+    function annullaUltimo() {
+        if (numeri.length > 0) {
+            let ultimoNumero = numeri.pop();
+            somma -= ultimoNumero;
+            volte--;
+
+            // Rimuovi l'ultima riga dalla tabella
+            let tabellaNumeri = document.getElementById("tabellaNumeri");
+            tabellaNumeri.deleteRow(tabellaNumeri.rows.length - 1);
+
+            // Aggiorna la media
+            let mediaSpan = document.getElementById("media");
+            if (volte > 0) {
+                mediaSpan.textContent = (somma / volte).toFixed(2);
+            } else {
+                mediaSpan.textContent = "N/A";
+            }
+        } else {
+            alert("Non ci sono numeri da annullare.");
+        }
     }
 </script>
 
