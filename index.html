@@ -29,8 +29,8 @@
     <input type="number" id="numeroInput" placeholder="Inserire numero">
     <button onclick="aggiungiNumero()">Aggiungi Numero</button>
     <button onclick="reset()">Resetta</button>
+    <button onclick="annullaUltimo()">Annulla</button>
     <button onclick="indietro()">Indietro</button>
-    <button onclick="annullaUltimo()">Annulla Ultimo</button>
     <p>Media attuale: <span id="media">N/A</span></p>
 
     <table id="tabellaNumeri">
@@ -44,6 +44,7 @@
     let somma = 0;
     let volte = 0;
     let numeri = [];
+    let numeriAnnullati = [];
 
     function aggiungiNumero() {
         let numeroInput = document.getElementById("numeroInput");
@@ -67,6 +68,7 @@
 
             // Resetta l'input
             numeroInput.value = "";
+            numeriAnnullati = []; // Svuota la lista degli annullamenti
         } else {
             alert("Inserire un numero valido.");
         }
@@ -81,6 +83,7 @@
         somma = 0;
         volte = 0;
         numeri = [];
+        numeriAnnullati = [];
         mediaSpan.textContent = "N/A";
         numeroInput.value = "";
 
@@ -88,13 +91,10 @@
         tabellaNumeri.innerHTML = "<tr><th>Num</th></tr>";
     }
 
-    function indietro() {
-        history.back();
-    }
-
     function annullaUltimo() {
         if (numeri.length > 0) {
             let ultimoNumero = numeri.pop();
+            numeriAnnullati.push(ultimoNumero);
             somma -= ultimoNumero;
             volte--;
 
@@ -111,6 +111,27 @@
             }
         } else {
             alert("Non ci sono numeri da annullare.");
+        }
+    }
+
+    function indietro() {
+        if (numeriAnnullati.length > 0) {
+            let numeroRipristinato = numeriAnnullati.pop();
+            numeri.push(numeroRipristinato);
+            somma += numeroRipristinato;
+            volte++;
+
+            // Aggiungi il numero ripristinato alla tabella
+            let tabellaNumeri = document.getElementById("tabellaNumeri");
+            let riga = tabellaNumeri.insertRow(-1);
+            let cella = riga.insertCell(0);
+            cella.textContent = numeroRipristinato;
+
+            // Aggiorna la media
+            let mediaSpan = document.getElementById("media");
+            mediaSpan.textContent = (somma / volte).toFixed(2);
+        } else {
+            alert("Non ci sono numeri da ripristinare.");
         }
     }
 </script>
